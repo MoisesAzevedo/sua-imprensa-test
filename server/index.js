@@ -150,6 +150,8 @@ app.get("/api/auth/user", authenticateToken, (req, res) => {
 
 // Products routes
 app.get("/api/products", authenticateToken, (req, res) => {
+  console.log(`🔍 GET /api/products chamado por userId: ${req.user.id}`);
+
   const userProducts = products.filter(
     (product) => product.userId === req.user.id
   );
