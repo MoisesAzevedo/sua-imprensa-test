@@ -4,8 +4,9 @@ import { useProducts } from "../../../contexts/ProductContext";
 import { useAuth } from "../../../contexts/AuthContext"; // ajuste o caminho conforme seu projeto
 /* icons */
 import { MoreVertical } from "lucide-react";
-/* service */
-import { deleteProduct } from "../../../services/productAPI/deleteProduct";
+/* actions */
+import { deleteProductAction } from "../actions/deleteProductAction";
+import { EditProductModal } from "./EditProductModal";
 
 const ProductDisplay: React.FC = () => {
   const { products, loading, error, loadProducts } = useProducts();
@@ -13,7 +14,7 @@ const ProductDisplay: React.FC = () => {
   const [openDropMenu, setOpenDropMenu] = useState<{ [key: string]: boolean }>(
     {}
   );
-
+  const [editProduct, setEditProduct] = useState<any | null>(null);
   const dropMenuRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   // open and close dropMenu
@@ -98,20 +99,20 @@ const ProductDisplay: React.FC = () => {
                     className="absolute right-0 top-8 bg-white shadow-lg rounded-md border"
                   >
                     <button
-                      className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => console.log("Editar", product.id)}
+                      className="flex justify-center item-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-200"
+                      onClick={() => setEditProduct(product)}
                     >
                       Edit
                     </button>
                     <button
-                      className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-red-100"
-                      onClick={async () => {
-                        try {
-                          await deleteProduct(product.id, token, product.name);
-                          loadProducts();
-                        } catch (error) {
-                          console.error("ProductDisplay: delete err:", error);
-                        }
+                      className="flex justify-center item-center w-full px-4 py-2  text-sm text-gray-700 hover:bg-red-100"
+                      onClick={() => {
+                        deleteProductAction(
+                          product.id,
+                          token,
+                          product.name,
+                          loadProducts
+                        );
                       }}
                     >
                       Delete
@@ -132,6 +133,14 @@ const ProductDisplay: React.FC = () => {
               </span>
             </div>
           ))}
+
+        {/* edit modal */}
+        {editProduct && (
+          <EditProductModal
+            product={editProduct}
+            onClose={() => setEditProduct(null)}
+          />
+        )}
       </div>
     </section>
   );
