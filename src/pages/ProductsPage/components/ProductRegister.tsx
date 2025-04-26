@@ -1,6 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useProducts } from "../../../contexts/ProductContext";
 
 const ProductRegister: React.FC = () => {
+  const { token } = useAuth();
+  const { loadProducts } = useProducts();
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [status, setStatus] = useState("active");
+
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setStatus("active");
+  };
+
+  const registerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await axios.post(
+        "http://localhost:5000/api/products",
+        { name, description, price: Number(price), status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      alert("Product registered successfully!");
+      resetForm();
+      loadProducts();
+    } catch (error) {
+      console.error("Error registering product:", error);
+      alert("Failed to register product.");
+    }
+  };
+
+  const handleCancel = () => {
+    resetForm();
+  };
+
   return (
     <section
       className="h-[560px] bg-white shadow space-y-4 sm:rounded-lg p-6"
@@ -10,7 +54,11 @@ const ProductRegister: React.FC = () => {
         <h2 className="text-xl font-semibold">Product Registration</h2>
       </header>
 
-      <form className="space-y-4" data-form="product-register-form">
+      <form
+        onSubmit={registerSubmit}
+        className="space-y-4"
+        data-form="product-register-form"
+      >
         <div className="flex flex-col space-y-2" data-field="name">
           <label htmlFor="name" className="text-sm font-medium">
             Product Name
@@ -18,7 +66,8 @@ const ProductRegister: React.FC = () => {
           <input
             type="text"
             id="name"
-            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="border p-2 rounded-md"
             placeholder="Enter the product name"
             required
@@ -31,7 +80,8 @@ const ProductRegister: React.FC = () => {
           </label>
           <textarea
             id="description"
-            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             className="border p-2 rounded-md resize-none"
             placeholder="Enter the product description"
             rows={3}
@@ -45,7 +95,8 @@ const ProductRegister: React.FC = () => {
           <input
             type="number"
             id="price"
-            name="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             className="border p-2 rounded-md"
             placeholder="Enter the product price"
             required
@@ -58,7 +109,8 @@ const ProductRegister: React.FC = () => {
           </label>
           <select
             id="status"
-            name="status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
             className="border p-2 rounded-md"
             required
           >
@@ -77,6 +129,7 @@ const ProductRegister: React.FC = () => {
           </button>
           <button
             type="button"
+            onClick={handleCancel}
             className="px-4 py-2 text-black rounded-md bg-gray-100 hover:bg-gray-200 active:bg-gray-300"
             data-action="cancel"
           >

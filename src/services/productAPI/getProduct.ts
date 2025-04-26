@@ -4,7 +4,7 @@ export async function fetchProducts(token: string) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}` // Usando o token passado como argumento
+        Authorization: `Bearer ${token}`
       }
     });
 

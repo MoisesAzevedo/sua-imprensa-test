@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { fetchProducts } from "../services/productsAPI";
-import { useAuth } from "../contexts/AuthContext"; // Importar useAuth
+import { fetchProducts } from "../services/productAPI/getProduct";
+import { useAuth } from "../contexts/AuthContext";
 
 interface Product {
   id: string;
@@ -27,7 +27,7 @@ export const ProductsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { token } = useAuth(); // Obtém o token do AuthContext
+  const { token } = useAuth(); //  get token
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export const ProductsProvider = ({
     setError(null);
 
     try {
-      const data = await fetchProducts(token); // Passa o token obtido do AuthContext
+      const data = await fetchProducts(token);
       setProducts(data);
     } catch (err: any) {
       setError(err.message || "Failed to load products");
@@ -53,9 +53,9 @@ export const ProductsProvider = ({
 
   useEffect(() => {
     if (token) {
-      loadProducts(); // Carrega os produtos sempre que o token mudar
+      loadProducts();
     }
-  }, [token]); // Dependência no token para recarregar os produtos
+  }, [token]);
 
   return (
     <ProductsContext.Provider

@@ -1,5 +1,4 @@
-import React from "react";
-import { useProducts } from "../../../contexts/ProductContext"; // ajuste o caminho se necessário
+import { useProducts } from "../../../contexts/ProductContext";
 
 const ProductDisplay: React.FC = () => {
   const { products, loading, error } = useProducts();
