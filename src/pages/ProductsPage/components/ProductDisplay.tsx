@@ -63,27 +63,31 @@ const ProductDisplay: React.FC = () => {
 
   return (
     <section
-      className="h-[560px] bg-white shadow space-y-4 sm:rounded-lg p-6"
+      className=" bg-white shadow space-y-4 sm:rounded-lg p-6"
       data-section="product-display"
     >
       <header className="border-b pb-4" data-header="product-display-header">
         <h2 className="text-xl font-semibold">Registered Products</h2>
       </header>
 
-      <div className="overflow-y-scroll h-[400px] scrollbar-thin scrollbar-width-5 space-y-4 pr-3">
+      <div className="relative grid grid-cols-3 xl:grid-cols-[1fr, 1fr, 1fr] gap-4  ">
         {loading && (
-          <p className="text-center text-gray-500">Loading products...</p>
+          <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-500">
+            Loading products...
+          </p>
         )}
         {error && <p className="text-center text-red-500">Error: {error}</p>}
         {!loading && !error && products.length === 0 && (
-          <p className="text-center text-gray-500">No products found.</p>
+          <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-500">
+            No products found.
+          </p>
         )}
         {!loading &&
           !error &&
           products.map((product) => (
             <div
               key={product.id}
-              className="border p-4 rounded-md shadow-sm flex flex-col space-y-2"
+              className="border p-4 rounded-md shadow-sm flex flex-col space-y-2 "
             >
               <header className="relative flex items-center w-full">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
@@ -129,7 +133,7 @@ const ProductDisplay: React.FC = () => {
                   product.status === "active" ? "bg-green-600" : "bg-red-600"
                 }`}
               >
-                {product.status === "active" ? "Active" : "Inactive"}
+                {product.status}
               </span>
             </div>
           ))}

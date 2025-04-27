@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useProducts } from "../../../contexts/ProductContext";
+
+import { updateProduct } from "../../../services/productAPI/updateProduct";
 
 interface EditProductModalProps {
   product: any;
@@ -14,11 +18,8 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
   const [price, setPrice] = useState(product.price);
   const [status, setStatus] = useState(product.status);
 
-  const registerSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Update product:", { name, description, price, status });
-    onClose();
-  };
+  const { token } = useAuth();
+  const { loadProducts } = useProducts();
 
   const handleCancel = () => {
     onClose();
@@ -30,17 +31,35 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
     }
   };
 
+  const editSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await updateProduct(
+        product.id,
+        { name, description, price: Number(price), status },
+        token
+      );
+
+      alert("Product updated successfully!");
+      loadProducts();
+    } catch (error) {
+      console.error("Error updating product:", error);
+      alert("Failed to update product.");
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 !m-0 bg-black bg-opacity-40 flex justify-center items-center z-50"
-      onClick={handleOverlayClick}
+      onMouseDown={handleOverlayClick}
     >
       <div className="bg-white p-6 rounded-md w-full max-w-md shadow-lg">
         <header className="border-b pb-4 mb-4">
           <h2 className="text-xl font-semibold">Edit {name}</h2>
         </header>
 
-        <form onSubmit={registerSubmit} className="space-y-4">
+        <form onSubmit={editSubmit} className="space-y-4">
           <div className="flex flex-col space-y-2">
             <label htmlFor="edit-name" className="text-sm font-medium">
               Product Name
@@ -94,7 +113,7 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
               required
             >
               <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
+              <option value="disabled">Disabled</option>
             </select>
           </div>
 

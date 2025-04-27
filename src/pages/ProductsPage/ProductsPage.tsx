@@ -19,7 +19,7 @@ const ProductsPage: React.FC = () => {
         className="h-max grid gap-4 overflow-hidden pb-2.5"
       >
         <div
-          className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] gap-4"
+          className="grid grid-cols-1 xl:grid-cols-[1fr] gap-4"
           data-field="line-1"
         >
           <ProductRegister />

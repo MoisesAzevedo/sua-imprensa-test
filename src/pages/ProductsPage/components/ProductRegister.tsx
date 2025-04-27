@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { createProduct } from "../../../services/productAPI/createProduct";
+
 import { useAuth } from "../../../contexts/AuthContext";
 import { useProducts } from "../../../contexts/ProductContext";
 
@@ -19,18 +21,17 @@ const ProductRegister: React.FC = () => {
     setStatus("active");
   };
 
+  const handleCancel = () => {
+    resetForm();
+  };
+
   const registerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      await axios.post(
-        "http://localhost:5000/api/products",
+      await createProduct(
         { name, description, price: Number(price), status },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        token
       );
       alert("Product registered successfully!");
       resetForm();
@@ -41,13 +42,9 @@ const ProductRegister: React.FC = () => {
     }
   };
 
-  const handleCancel = () => {
-    resetForm();
-  };
-
   return (
     <section
-      className="h-[560px] bg-white shadow space-y-4 sm:rounded-lg p-6"
+      className="h-[560px] w-[600px] bg-white shadow space-y-4 sm:rounded-lg p-6"
       data-section="product-register"
     >
       <header className="border-b pb-4" data-header="product-register-header">
@@ -115,7 +112,7 @@ const ProductRegister: React.FC = () => {
             required
           >
             <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="disabled">Disabled</option>
           </select>
         </div>
 
