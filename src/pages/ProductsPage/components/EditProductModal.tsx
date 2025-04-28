@@ -9,6 +9,19 @@ interface EditProductModalProps {
   onClose: () => void;
 }
 
+const categories = [
+  "Electronics",
+  "Clothing",
+  "Home",
+  "Toys",
+  "Beauty",
+  "Sports",
+  "Automotive",
+  "Books",
+  "Groceries",
+  "Health"
+];
+
 export const EditProductModal: React.FC<EditProductModalProps> = ({
   product,
   onClose
@@ -17,6 +30,7 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
   const [description, setDescription] = useState(product.description);
   const [price, setPrice] = useState(product.price);
   const [status, setStatus] = useState(product.status);
+  const [category, setCategory] = useState(product.category || categories[0]);
 
   const { token } = useAuth();
   const { loadProducts } = useProducts();
@@ -37,12 +51,13 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
     try {
       await updateProduct(
         product.id,
-        { name, description, price: Number(price), status },
+        { name, description, price: Number(price), status, category },
         token
       );
 
       alert("Product updated successfully!");
       loadProducts();
+      onClose();
     } catch (error) {
       console.error("Error updating product:", error);
       alert("Failed to update product.");
@@ -99,6 +114,25 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
               className="border p-2 rounded-md"
               required
             />
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <label htmlFor="edit-category" className="text-sm font-medium">
+              Category
+            </label>
+            <select
+              id="edit-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="border p-2 rounded-md"
+              required
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="flex flex-col space-y-2">

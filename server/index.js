@@ -12,7 +12,7 @@ const JWT_SECRET = "developer-test-secret-key";
 app.use(cors());
 app.use(express.json());
 
-// In-memory database (in a real app, you would use a proper database)
+// In-memory database
 const users = [
   {
     id: "1",
@@ -29,7 +29,8 @@ const products = [
     description: "This is a sample product description",
     price: 99.99,
     status: "active",
-    userId: "1"
+    userId: "1",
+    category: "Electronics"
   }
 ];
 
@@ -71,7 +72,6 @@ app.post(
 
     const { name, email, password } = req.body;
 
-    // Check if user already exists
     const existingUser = users.find((user) => user.email === email);
     if (existingUser) {
       return res
@@ -79,11 +79,9 @@ app.post(
         .json({ message: "User with this email already exists" });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = {
       id: (users.length + 1).toString(),
       name,
@@ -93,7 +91,6 @@ app.post(
 
     users.push(newUser);
 
-    // Create token
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: "1h" });
 
     res.status(201).json({
@@ -117,19 +114,16 @@ app.post(
 
     const { email, password } = req.body;
 
-    // Find user
     const user = users.find((user) => user.email === email);
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Validate password
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Create token
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
 
     res.json({
@@ -162,8 +156,9 @@ app.post(
   "/api/products",
   [
     authenticateToken,
-    body("name").notEmpty().withMessage("Product name is required"),
-    body("price").isNumeric().withMessage("Price must be a number")
+    body("name").notEmpty().withMessage("Product name is required now"),
+    body("price").isNumeric().withMessage("Price must be a number"),
+    body("category").notEmpty().withMessage("Category is required")
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -171,7 +166,7 @@ app.post(
       return res.status(400).json({ message: errors.array()[0].msg });
     }
 
-    const { name, description, price, status } = req.body;
+    const { name, description, price, status, category } = req.body;
 
     const newProduct = {
       id: (products.length + 1).toString(),
@@ -179,7 +174,8 @@ app.post(
       description: description || "",
       price: parseFloat(price),
       status: status || "active",
-      userId: req.user.id
+      userId: req.user.id,
+      category: category || "Select a category"
     };
 
     products.push(newProduct);
@@ -204,7 +200,8 @@ app.put(
   [
     authenticateToken,
     body("name").notEmpty().withMessage("Product name is required"),
-    body("price").isNumeric().withMessage("Price must be a number")
+    body("price").isNumeric().withMessage("Price must be a number"),
+    body("category").notEmpty().withMessage("Category is required")
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -221,14 +218,15 @@ app.put(
       return res.status(404).json({ message: "Product not found" });
     }
 
-    const { name, description, price, status } = req.body;
+    const { name, description, price, status, category } = req.body;
 
     products[productIndex] = {
       ...products[productIndex],
       name,
       description: description || products[productIndex].description,
       price: parseFloat(price),
-      status: status || products[productIndex].status
+      status: status || products[productIndex].status,
+      category: category || products[productIndex].category
     };
 
     res.json(products[productIndex]);

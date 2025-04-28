@@ -1,10 +1,15 @@
 // src/services/createProduct.ts
 import axios from "axios";
 
-export async function createProduct(
-  data: { name: string; description: string; price: number; status: string },
-  token: any
-) {
+interface ProductData {
+  name: string;
+  description: string;
+  price: number;
+  status: string;
+  category: string;
+}
+
+export async function createProduct(data: ProductData, token: any) {
   const response = await axios.post(
     "http://localhost:5000/api/products",
     data,

@@ -3,7 +3,13 @@ import axios from "axios";
 
 export async function updateProduct(
   id: string,
-  data: { name: string; description: string; price: number; status: string },
+  data: {
+    name: string;
+    description: string;
+    price: number;
+    status: string;
+    category: string;
+  },
   token: any
 ) {
   const response = await axios.put(

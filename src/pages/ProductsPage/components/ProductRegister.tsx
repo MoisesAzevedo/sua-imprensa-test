@@ -1,9 +1,21 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { createProduct } from "../../../services/productAPI/createProduct";
 
 import { useAuth } from "../../../contexts/AuthContext";
 import { useProducts } from "../../../contexts/ProductContext";
+
+const categories = [
+  "Electronics",
+  "Clothing",
+  "Home",
+  "Toys",
+  "Beauty",
+  "Sports",
+  "Automotive",
+  "Books",
+  "Groceries",
+  "Health"
+];
 
 const ProductRegister: React.FC = () => {
   const { token } = useAuth();
@@ -13,12 +25,14 @@ const ProductRegister: React.FC = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [status, setStatus] = useState("active");
+  const [category, setCategory] = useState(categories[0]);
 
   const resetForm = () => {
     setName("");
     setDescription("");
     setPrice("");
     setStatus("active");
+    setCategory(categories[0]);
   };
 
   const handleCancel = () => {
@@ -30,7 +44,7 @@ const ProductRegister: React.FC = () => {
 
     try {
       await createProduct(
-        { name, description, price: Number(price), status },
+        { name, description, price: Number(price), status, category },
         token
       );
       alert("Product registered successfully!");
@@ -44,7 +58,7 @@ const ProductRegister: React.FC = () => {
 
   return (
     <section
-      className="h-[560px] w-[600px] bg-white shadow space-y-4 sm:rounded-lg p-6"
+      className="h-auto w-[600px] bg-white shadow space-y-4 sm:rounded-lg p-6"
       data-section="product-register"
     >
       <header className="border-b pb-4" data-header="product-register-header">
@@ -98,6 +112,25 @@ const ProductRegister: React.FC = () => {
             placeholder="Enter the product price"
             required
           />
+        </div>
+
+        <div className="flex flex-col space-y-2" data-field="category">
+          <label htmlFor="category" className="text-sm font-medium">
+            Category
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border p-2 rounded-md"
+            required
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex flex-col space-y-2" data-field="status">

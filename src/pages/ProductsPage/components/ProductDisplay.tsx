@@ -27,7 +27,6 @@ const ProductDisplay: React.FC = () => {
 
   // close dropMenu on DOM click
   const dropMenuClickOutside = (event: MouseEvent) => {
-    // Checks if the click was outside the  dropMenu
     for (const productId in dropMenuRef.current) {
       if (
         dropMenuRef.current[productId] &&
@@ -41,7 +40,6 @@ const ProductDisplay: React.FC = () => {
     }
   };
 
-  // listen the DOM click
   useEffect(() => {
     document.addEventListener("mousedown", dropMenuClickOutside);
 
@@ -63,14 +61,14 @@ const ProductDisplay: React.FC = () => {
 
   return (
     <section
-      className=" bg-white shadow space-y-4 sm:rounded-lg p-6"
+      className="bg-white shadow space-y-4 sm:rounded-lg p-6"
       data-section="product-display"
     >
       <header className="border-b pb-4" data-header="product-display-header">
         <h2 className="text-xl font-semibold">Registered Products</h2>
       </header>
 
-      <div className="relative grid grid-cols-3 xl:grid-cols-[1fr, 1fr, 1fr] gap-4  ">
+      <div className="relative grid grid-cols-3 xl:grid-cols-[1fr, 1fr, 1fr] gap-4">
         {loading && (
           <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-500">
             Loading products...
@@ -87,7 +85,7 @@ const ProductDisplay: React.FC = () => {
           products.map((product) => (
             <div
               key={product.id}
-              className="border p-4 rounded-md shadow-sm flex flex-col space-y-2 "
+              className="border p-4 rounded-md shadow-sm flex flex-col  "
             >
               <header className="relative flex items-center w-full">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
@@ -96,7 +94,6 @@ const ProductDisplay: React.FC = () => {
                   className="absolute right-0 text-gray-600 hover:text-gray-900 cursor-pointer"
                   onClick={() => dropMenuClick(product.id)}
                 />
-
                 {openDropMenu[product.id] === true && (
                   <div
                     ref={(el) => (dropMenuRef.current[product.id] = el)}
@@ -109,7 +106,7 @@ const ProductDisplay: React.FC = () => {
                       Edit
                     </button>
                     <button
-                      className="flex justify-center item-center w-full px-4 py-2  text-sm text-gray-700 hover:bg-red-100"
+                      className="flex justify-center item-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-100"
                       onClick={() => {
                         deleteProductAction(
                           product.id,
@@ -124,10 +121,22 @@ const ProductDisplay: React.FC = () => {
                   </div>
                 )}
               </header>
-              <p className="text-sm text-gray-600">{product.description}</p>
+              {/* category */}
+              <span className="mt-0 text-xs font-medium text-black-600">
+                {product.category || "Uncategorized"}
+              </span>
+
+              {/* description */}
+              <p className="text-sm mt-[10px] text-gray-600">
+                {product.description}
+              </p>
+
+              {/* price */}
               <p className="text-lg font-semibold">
                 ${product.price.toFixed(2)}
               </p>
+
+              {/* status */}
               <span
                 className={`flex justify-center w-20 mt-2 px-3 py-1 text-sm text-white rounded-md ${
                   product.status === "active" ? "bg-green-600" : "bg-red-600"

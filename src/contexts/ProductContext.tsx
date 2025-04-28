@@ -9,6 +9,7 @@ interface Product {
   price: number;
   status: string;
   userId: string;
+  category: string;
 }
 
 interface ProductsContextType {
@@ -27,7 +28,7 @@ export const ProductsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { token } = useAuth(); //  get token
+  const { token } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
