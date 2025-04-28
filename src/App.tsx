@@ -9,7 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ProductsProvider } from "./contexts/ProductContext"; // <-- importar aqui
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";

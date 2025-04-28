@@ -1,7 +1,7 @@
 /* hooks */
 import { useState, useEffect, useRef } from "react";
 import { useProducts } from "../../../contexts/ProductContext";
-import { useAuth } from "../../../contexts/AuthContext"; // ajuste o caminho conforme seu projeto
+import { useAuth } from "../../../contexts/AuthContext";
 /* icons */
 import { MoreVertical } from "lucide-react";
 /* actions */

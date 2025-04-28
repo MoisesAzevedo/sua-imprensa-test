@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #3730a3; /* Ou qualquer cor que você preferir */
+  --light-red: rgb(250 66 66); /* Ou qualquer cor que você preferir */
+}
+
 /*  scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
