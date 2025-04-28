@@ -1,77 +1,57 @@
-# Projeto de Teste para Desenvolvedor: Autenticação e Produtos
+# Dashboard Bolt - Sistema de Autenticação e Gerenciamento de Produtos
 
-Este é um teste técnico simplificado para avaliar habilidades full-stack, com foco em operações CRUD básicas e integração frontend-backend.
+Este projeto é uma aplicação full-stack que integra autenticação de usuários e gerenciamento de produtos, com operações CRUD completas.
 
-## Visão Geral
+## Tecnologias Utilizadas
 
-O projeto inclui:
+- **Frontend:** React.js
+- **Backend:** Express.js
+- **Autenticação:** JSON Web Token (JWT)
+- **Gráficos:** Recharts
+- **Comunicação:** API RESTful
 
-- Frontend React com sistema de autenticação pronto
-- Backend Express com API REST
-- Gerenciamento básico de produtos
+## Funcionalidades Implementadas
 
-## Início Rápido
-
-1. Clone o repositório
-2. Instale as dependências: `npm install`
-3. Execute o projeto: `npm run dev:full`
+- Registro e login de usuários
+- Proteção de rotas via autenticação JWT
+- Exibição de produtos em tabela
+- Cadastro de novos produtos
+- Edição de produtos existentes
+- Exclusão de produtos
+- Validação básica dos campos de formulário
+- Visualização de dados utilizando gráficos (Recharts)
 
 ## Estrutura do Projeto
 
-- `/src` - Frontend React
-- `/server` - Backend Express
+- `/src` — Frontend React
+- `/server` — Backend Express
 
-## Sistema de Autenticação (Já Implementado)
+## Como Executar o Projeto
 
-- Login e registro de usuários
-- Rotas protegidas
-- Tokens JWT
+### 1. Instalação e Execução
 
-## Tarefa: Implementar Gerenciamento de Produtos
+Siga os passos abaixo para rodar o projeto localmente:
 
-### Requisitos Básicos:
+# Clone o repositório
 
-1. **Lista de Produtos**
+```bash
+git clone [link-do-repositorio]
+```
 
-   - Exibir produtos em uma tabela ou grid
-   - Mostrar: nome, preço e status
+# Acesse o diretório do projeto
 
-2. **Formulário de Produto**
+```bash
+cd dashboard-bolt
+```
 
-   - Campos: nome, preço, status
-   - Validação básica dos campos
+# Instale as dependências
 
-3. **Operações**
-   - Criar novo produto
-   - Editar produto existente
-   - Excluir produto
+```bash
+npm install
+```
 
-### API Endpoints
+# Inicie o projeto (frontend e backend simultaneamente)
 
-- `GET /api/products` - Listar produtos
-- `POST /api/products` - Criar produto
-- `PUT /api/products/:id` - Atualizar produto
-- `DELETE /api/products/:id` - Excluir produto
-
-Autenticação: Token Bearer no header Authorization
-
-## Avaliação
-
-Aspectos principais:
-
-1. Funcionamento das operações CRUD
-2. Integração frontend-backend
-3. Usabilidade da interface
-4. Organização do código
-5. Tratamento básico de erros
-
-## Entrega
-
-1. Criar repositório público no GitHub
-2. Implementar o módulo de produtos
-3. Atualizar o README com instruções de execução
-4. Enviar o link do repositório
-
-Tempo estimado: até 2 dias
-
-Boa sorte!
+```bash
+npm run dev:full
+```
