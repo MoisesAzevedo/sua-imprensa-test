@@ -146,8 +146,8 @@ export const EditProductModal: React.FC<EditProductModalProps> = ({
               className="border p-2 rounded-md"
               required
             >
-              <option value="active">Active</option>
-              <option value="disabled">Disabled</option>
+              <option value="available">Available</option>
+              <option value="sold">Sold</option>
             </select>
           </div>
 

@@ -10,7 +10,7 @@ const ProductsPage: React.FC = () => {
           Products Management
         </h1>
         <p className="mt-1 text-sm text-gray-500">
-          This page is intentionally left empty as part of the developer test.
+          Register and view your products!
         </p>
       </section>
 

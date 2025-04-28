@@ -139,7 +139,7 @@ const ProductDisplay: React.FC = () => {
               {/* status */}
               <span
                 className={`flex justify-center w-20 mt-2 px-3 py-1 text-sm text-white rounded-md ${
-                  product.status === "active" ? "bg-green-600" : "bg-red-600"
+                  product.status === "available" ? "bg-green-600" : "bg-red-600"
                 }`}
               >
                 {product.status}

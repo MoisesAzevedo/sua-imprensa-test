@@ -1,5 +1,5 @@
 // Dashboard.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import {
   Package,
@@ -8,29 +8,62 @@ import {
   BarChart as RevenueIcon
 } from "lucide-react";
 import { useProducts } from "../../contexts/ProductContext";
-/* components */
+import { calculateRevenue } from "../../utils/calculateSales";
+import { calculateSoldItems } from "../../utils/calculateSales";
 
+/* components */
 import ProductChart from "./components/ProductChart";
 import ProductPieChart from "./components/ProductPieChart";
+import SearchCard from "./components/SearchCard";
+import QuickAccess from "./components/QuickAccess";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const { products } = useProducts();
+  const { products, loading } = useProducts();
 
-  // Mock data for dashboard stats
+  useEffect(() => {
+    // Optionally handle loading state or show a loader
+    if (loading) {
+      console.log("Loading products...");
+    }
+  }, [loading]);
+
+  // Calculando o valor total de todos os produtos
+  const totalRevenue = calculateRevenue(products);
+
+  // Calculando o número de itens vendidos
+  const totalSoldItems = calculateSoldItems(products);
+
+  // Mock data for dashboard stats, but now coming from the context
   const stats = [
-    { name: "Total Products", value: "24", icon: <Package size={24} /> },
-    { name: "Registered Users", value: "12", icon: <Users size={24} /> },
-    { name: "Orders", value: "42", icon: <ShoppingCart size={24} /> },
-    { name: "Revenue", value: "$6,238", icon: <RevenueIcon size={24} /> }
+    {
+      name: "Total Products",
+      value: products.length.toString(),
+      icon: <Package size={24} />
+    },
+    {
+      name: "Registered Users",
+      value: "12", // This should be dynamically fetched from your users context or backend
+      icon: <Users size={24} />
+    },
+    {
+      name: "Orders",
+      value: totalSoldItems.toString(),
+      icon: <ShoppingCart size={24} />
+    },
+    {
+      name: "Revenue",
+      value: `$${totalRevenue.toLocaleString()}`,
+      icon: <RevenueIcon size={24} />
+    }
   ];
 
-  // Contagem de produtos ativos e desativados
+  // Count active and disabled products
   const activeCount = products.filter(
-    (product) => product.status === "active"
+    (product) => product.status === "available"
   ).length;
   const disabledCount = products.filter(
-    (product) => product.status === "disabled"
+    (product) => product.status === "sold"
   ).length;
 
   return (
@@ -74,27 +107,31 @@ const Dashboard: React.FC = () => {
       </section>
 
       {/* metrics */}
-      <section className="">
-        <div className="  border-gray-200 ">
-          <div className="grid lg:grid-cols-[calc(60%-16px),40%] gap-4">
-            {/* col 1 */}
-            <div className=" ">
-              {products.length === 0 ? (
-                <div className="text-center text-gray-600 font-semibold">
-                  Products not found
-                </div>
-              ) : (
-                <ProductChart products={products} />
-              )}
-            </div>
+      <section className="flex flex-col border-gray-200 gap-4">
+        <div className="grid lg:grid-cols-[calc(60%-16px),40%] gap-4">
+          <div>
+            {products.length === 0 ? (
+              <div className="text-center text-gray-600 font-semibold">
+                Products not found
+              </div>
+            ) : (
+              <ProductChart products={products} />
+            )}
+          </div>
+          <div>
+            <ProductPieChart
+              activeCount={activeCount}
+              disabledCount={disabledCount}
+            />
+          </div>
+        </div>
 
-            {/* col 2 */}
-            <div>
-              <ProductPieChart
-                activeCount={activeCount}
-                disabledCount={disabledCount}
-              />
-            </div>
+        <div className="grid lg:grid-cols-[calc(40%-16px),60%] gap-4">
+          <div>
+            <QuickAccess />
+          </div>
+          <div>
+            <SearchCard products={products} />
           </div>
         </div>
       </section>

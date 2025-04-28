@@ -24,14 +24,14 @@ const ProductRegister: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [status, setStatus] = useState("active");
+  const [status, setStatus] = useState("available");
   const [category, setCategory] = useState(categories[0]);
 
   const resetForm = () => {
     setName("");
     setDescription("");
     setPrice("");
-    setStatus("active");
+    setStatus("available");
     setCategory(categories[0]);
   };
 
@@ -144,8 +144,8 @@ const ProductRegister: React.FC = () => {
             className="border p-2 rounded-md"
             required
           >
-            <option value="active">Active</option>
-            <option value="disabled">Disabled</option>
+            <option value="available">Available</option>
+            <option value="sold">Sold</option>
           </select>
         </div>
 

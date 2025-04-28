@@ -19,8 +19,8 @@ const ProductPieChart: React.FC<ProductPieChartProps> = ({
     .trim();
 
   const data = [
-    { name: "Active", value: activeCount },
-    { name: "Disabled", value: disabledCount }
+    { name: "available", value: activeCount },
+    { name: "sold", value: disabledCount }
   ];
 
   const COLORS = [primaryColor, redColor];

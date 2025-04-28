@@ -24,7 +24,7 @@ const ProductChart: React.FC<ProductChartProps> = ({ products }) => {
   ).getPropertyValue("--primary");
 
   return (
-    <div className="relative flex overflow-hidden shadow rounded-lg p-4 rounded  bg-white  shadow rounded-lg transition-all hover:shadow-md">
+    <div className="relative flex h-[100%] overflow-hidden shadow rounded-lg p-4 rounded  bg-white  shadow rounded-lg transition-all hover:shadow-md">
       {/* Sticky Y-Axis Values */}
       <div className="sticky h-[231px] w-[60px] mt-[23px] left-0 z-10   flex flex-col justify-between px-2">
         {ticks
