@@ -35,13 +35,13 @@ Siga os passos abaixo para rodar o projeto localmente:
 # Clone o repositório
 
 ```bash
-git clone [link-do-repositorio]
+git clone https://github.com/MoisesAzevedo/sua-imprensa-test.git
 ```
 
 # Acesse o diretório do projeto
 
 ```bash
-cd dashboard-bolt
+cd sua-imprensa-test
 ```
 
 # Instale as dependências
